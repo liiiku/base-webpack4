@@ -1,5 +1,6 @@
-const path = require('path')
-
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   // entry: './src/index.js',
   mode: 'development', // 默认是production 不配置会有一个警告
@@ -54,5 +55,11 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }),
+    new CleanWebpackPlugin(),
+  ],
 }
