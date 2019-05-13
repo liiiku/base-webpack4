@@ -5,10 +5,12 @@ module.exports = {
   // entry: './src/index.js',
   mode: 'development', // 默认是production 不配置会有一个警告
   entry: {
-    app: './src/index.js'
+    main: './src/index.js',
+    sub: './src/index.js'
   },
   output: {
-    filename: 'bundle.js',
+    publicPath: './', // js引用路径或cdn地址
+    filename: '[name].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
     path: path.resolve(__dirname, 'dist')
   },
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
