@@ -1,6 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+
+
 module.exports = {
   // entry: './src/index.js',
   mode: 'development', // 默认是production 不配置会有一个警告
@@ -18,6 +21,8 @@ module.exports = {
     contentBase: './dist', // 这个服务器要启在哪一个文件夹下，因为都是打包到dist目录下，所以服务要起到dist目录下
     // open: true
     // publicPath: '/public/' // 所以这样访问的时候就要是localhost:8082/public/index.html 这个也就是起的这个服务器将资源打包到了哪里
+    hot: true,
+    hotOnly: true // 即便hot-module-replacement 没有生效也不让浏览器自动刷新
   },
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
     rules: [
@@ -32,10 +37,14 @@ module.exports = {
           }
         }
       },
-      // {
-      //   test: /\.css$/,
-      //   use: ['style-loader', 'css-loader'] // 因为需要用的loader不是一个了，所以这里就不能用一个对象了
-      // }
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader', 
+          'css-loader',
+          'postcss-loader'
+        ] // 因为需要用的loader不是一个了，所以这里就不能用一个对象了
+      },
       {
         test: /\.scss$/,
         use: [
@@ -69,5 +78,6 @@ module.exports = {
       template: 'src/index.html'
     }),
     new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
 }
