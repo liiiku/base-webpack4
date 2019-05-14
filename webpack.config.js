@@ -9,9 +9,15 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    // publicPath: './', // js引用路径或cdn地址
+    publicPath: '/',
+    // publicPath: '/public/', // js引用路径或cdn地址
     filename: '[name].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
     path: path.resolve(__dirname, 'dist')
+  },
+  devServer: {
+    contentBase: './dist', // 这个服务器要启在哪一个文件夹下，因为都是打包到dist目录下，所以服务要起到dist目录下
+    // open: true
+    // publicPath: '/public/' // 所以这样访问的时候就要是localhost:8082/public/index.html 这个也就是起的这个服务器将资源打包到了哪里
   },
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
     rules: [
