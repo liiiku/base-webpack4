@@ -27,6 +27,11 @@ module.exports = {
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
     rules: [
       {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      {
         test: /\.(jpg|png|gif)$/,
         use: {
           loader: 'url-loader', // 和file-loader不同，会转成base64的字符串直接打包到bundle.js中
