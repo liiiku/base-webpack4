@@ -26,15 +26,21 @@
 //   })
 // })
 
-async function getComponent() {
-  const { default: _  } = await import(/* webpackChunkName: "lodash" */ 'lodash')
-  const element = document.createElement('div');
-  element.innerHTML = _.join(['abc', '123'], '-');
-  return element;
-}
+// async function getComponent() {
+//   const { default: _  } = await import(/* webpackChunkName: "lodash" */ 'lodash')
+//   const element = document.createElement('div');
+//   element.innerHTML = _.join(['abc', '123'], '-');
+//   return element;
+// }
+
+// document.addEventListener('click', () => {
+//   getComponent().then(element => {
+//     document.body.appendChild(element);
+//   })
+// })
 
 document.addEventListener('click', () => {
-  getComponent().then(element => {
-    document.body.appendChild(element);
+  import('./click').then(({ default: func }) => { // _ 这的就是click 导出的handleClick方法
+    func();
   })
 })
