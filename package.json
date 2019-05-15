@@ -10,12 +10,14 @@
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --config ./build/webpack.dev.js",
     "build": "webpack --config ./build/webpack.prod.js",
+    "dev-build": "webpack --config ./build/webpack.dev.js",
     "server": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "autoprefixer": "^9.5.1",
@@ -39,6 +41,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@babel/runtime": "^7.4.4",
-    "@babel/runtime-corejs2": "^7.4.4"
+    "@babel/runtime-corejs2": "^7.4.4",
+    "lodash": "^4.17.11"
   }
 }

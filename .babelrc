@@ -10,7 +10,8 @@
         "corejs": 3
       }
     ]
-  ]
+  ],
+  "plugins": ["@babel/plugin-syntax-dynamic-import"]
   // "plugins": [
   //   ["@babel/plugin-transform-runtime", {
   //     "corejs": 2, // 默认是false
