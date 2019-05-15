@@ -2,7 +2,7 @@
 const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
-const config = require('./webpack.config.js');
+const config = require('./build/webpack.dev.js/index.js.js');
 const complier = webpack(config); // webpack 结合 配置文件随时可以进行代码的编译 返回一个编译器，让其执行一次，就会打包一次代码
 
 const app = express();
