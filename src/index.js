@@ -39,8 +39,9 @@
 //   })
 // })
 
+// 当触发click事件的时候，会加载click.js文件，当然不是非得等到点击之后再去加载，而是一旦发现主要的js之后，网络带宽有空闲就会加载
 document.addEventListener('click', () => {
-  import('./click').then(({ default: func }) => { // _ 这的就是click 导出的handleClick方法
+  import(/* webpackPrefetch: true */ './click').then(({ default: func }) => { // _ 这的就是click 导出的handleClick方法
     func();
   })
 })
