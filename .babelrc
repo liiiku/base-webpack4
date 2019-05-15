@@ -1,22 +1,22 @@
 {
-  // presets: [
-  //   [
-  //     "@babel/preset-env", // 这样仅仅是语法的转化，但是像es6这样的promise\map 这样的方法还是不认识的，这就需要babel-polyfill
-  //     {
-  //       targets: {
-  //         chrome: "67", // 如果没有必要做es6 到 es5 的转化，就不会做相关的转化
-  //       },
-  //       useBuiltIns: "usage", // 不是把所有es6转es5的都加进来，如果只用了promise，那就只加这一个转化方式
-  //       corejs: 3
-  //     }
-  //   ]
-  // ]
-  "plugins": [
-    ["@babel/plugin-transform-runtime", {
-      "corejs": 2, // 默认是false
-      "helpers": true,
-      "regenerator": true,
-      "useESModules": false
-    }]
+  "presets": [
+    [
+      "@babel/preset-env", // 这样仅仅是语法的转化，但是像es6这样的promise\map 这样的方法还是不认识的，这就需要babel-polyfill
+      {
+        "targets": {
+          "chrome": "67", // 如果没有必要做es6 到 es5 的转化，就不会做相关的转化
+        },
+        "useBuiltIns": "usage", // 不是把所有es6转es5的都加进来，如果只用了promise，那就只加这一个转化方式
+        "corejs": 3
+      }
+    ]
   ]
+  // "plugins": [
+  //   ["@babel/plugin-transform-runtime", {
+  //     "corejs": 2, // 默认是false
+  //     "helpers": true,
+  //     "regenerator": true,
+  //     "useESModules": false
+  //   }]
+  // ]
 }

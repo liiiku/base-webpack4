@@ -12,7 +12,7 @@ module.exports = {
     main: './src/index.js'
   },
   output: {
-    publicPath: '/',
+    // publicPath: '/',
     // publicPath: '/public/', // js引用路径或cdn地址
     filename: '[name].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
     path: path.resolve(__dirname, 'dist')
@@ -85,4 +85,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
+  optimization: {
+    usedExports: true // 看看哪些导出的模块被使用了再做打包
+  }
 }
