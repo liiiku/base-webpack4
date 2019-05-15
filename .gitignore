@@ -8,5 +8,4 @@ stats.json
 todo.txt
 yarn-error.log
 yarn.lock
-build/
 .vscode
