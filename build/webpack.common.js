@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   performance: false, // 打包的时候不提示警告信息
@@ -15,7 +16,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        // loader: 'babel-loader'
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'imports-loader?this=>window'
+          }
+        ]
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -75,6 +84,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin({
       root: path.resolve(__dirname, '../') // 根路径不再是当前文件坐在的目录了，而是当前文件夹向上一层的路径
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery', // 如果一个文件中引用了$，就会在模块中自动帮忙引入jquery
+      // _: 'lodash'
+      _join: ['lodash', 'join']
     })
   ]
 }

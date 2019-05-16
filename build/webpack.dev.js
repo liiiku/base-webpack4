@@ -44,7 +44,7 @@ const devConfig = {
         ] // 因为需要用的loader不是一个了，所以这里就不能用一个对象了 先经过sass-loader 处理，再css-loader 再style-loader处理
       }
     ]
-  }
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
