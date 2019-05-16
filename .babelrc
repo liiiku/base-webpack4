@@ -9,7 +9,8 @@
         "useBuiltIns": "usage", // 不是把所有es6转es5的都加进来，如果只用了promise，那就只加这一个转化方式
         "corejs": 3
       }
-    ]
+    ],
+    "@babel/preset-react"
   ],
   "plugins": ["@babel/plugin-syntax-dynamic-import"]
   // "plugins": [

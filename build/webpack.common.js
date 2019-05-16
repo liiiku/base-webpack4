@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -11,20 +12,27 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist')
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    mainFiles: ['index', 'child'], // import Child from './child/'  如果只写了目录，没有写具体文件的时候，会默认先找index.js(x) 然后找child.js(x)
+    alias: {
+      '@': path.resolve(__dirname, '../src') // 起别名有一个好处就是，如果使用相对路径，如果文件移动了，就会直接报错，使用@这样的绝对路径，可以避免这样的问题
+    }
+  },
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        // loader: 'babel-loader'
-        use: [
-          {
-            loader: 'babel-loader'
-          },
-          {
-            loader: 'imports-loader?this=>window'
-          }
-        ]
+        loader: 'babel-loader'
+        // use: [
+        //   {
+        //     loader: 'babel-loader'
+        //   },
+        //   {
+        //     loader: 'imports-loader?this=>window'
+        //   }
+        // ]
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -89,6 +97,12 @@ module.exports = {
       $: 'jquery', // 如果一个文件中引用了$，就会在模块中自动帮忙引入jquery
       // _: 'lodash'
       _join: ['lodash', 'join']
+    }),
+    new AddAssetHtmlWebpackPlugin({
+      filepath: path.resolve(__dirname, '../dll/vendors.dll.js')
+    }),
+    new webpack.DllReferencePlugin({
+      manifest: path.resolve(__dirname, '../dll/vendors.manifest.json') // 如果能从这里面找到映射关系，就没有必要再重新打包了，直接从vendors.dll.js中拿过来用就可以了，会去怎么拿？会稻全局变量中拿
     })
   ]
 }

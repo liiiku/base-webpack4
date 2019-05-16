@@ -1,10 +1,17 @@
-// import _ from 'lodash';
-// import $ from 'jquery';
-// import { ui } from './jquery.ui';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+// import Child from '@/child/';
+import _ from 'lodash';
 
-// ui();
-// const dom = $('<div></div>');
-// dom.html(_.join(['abc', '123'], '***'));
-// $('body').append(dom);
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <div>{_.join(['This', 'is', 'App'], ' ')}</div>
+        {/* <Child /> */}
+      </div>
+    )
+  }
+}
 
-console.log(this === window); // 这个this指向模块自身，现在希望这this指向window
+ReactDOM.render(<App />, document.getElementById('root'));
