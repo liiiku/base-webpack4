@@ -13,12 +13,40 @@ const devConfig = {
     hot: true,
     // hotOnly: true // 即便hot-module-replacement 没有生效也不让浏览器自动刷新
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader', 
+          'css-loader',
+          'postcss-loader'
+        ] // 因为需要用的loader不是一个了，所以这里就不能用一个对象了
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader', 
+          // 'css-loader', // 要个css-loader 加一些配置项，这里就不要写字符串了，要写对象
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2, // 在scss中通过import引入的scss文件，如果没有这个的话，就直接走css-loader style-loader 了，就不走postcss-loader 和 scss-loader，也就是不管是从里引入的，都是走所有的loader
+              // modules: true // 开启css的模块化打包 这就是css-module的概念
+            }
+          },
+          'sass-loader',
+          'postcss-loader' // 默认加上厂商前缀 -webkit- -moz- postcss-loader 处理的时候，会找到postcss.config.js处理
+        ] // 因为需要用的loader不是一个了，所以这里就不能用一个对象了 先经过sass-loader 处理，再css-loader 再style-loader处理
+      }
+    ]
+  }
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
-  optimization: {
-    usedExports: true // 看看哪些导出的模块被使用了再做打包
-  }
+  // optimization: {
+  //   usedExports: true // 看看哪些导出的模块被使用了再做打包
+  // }
 }
 
 module.exports = merge(commonConfig, devConfig);
