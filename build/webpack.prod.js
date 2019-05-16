@@ -5,7 +5,11 @@ const commonConfig = require('./webpack.common');
 
 const prodConfig = {
   mode: 'production', // 默认是production 不配置会有一个警告
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
+  output: { // 线上环境打包，就需要加上contenthash：代码没有改变，打包生成的contenthash永远不会变，只要代码一遍，就会发生变化
+    filename: '[name].[contenthash].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
+    chunkFilename: '[name].[contenthash].chunk.js',
+  },
   module: {
     rules: [
       {

@@ -6,6 +6,10 @@ const devConfig = {
   // entry: './src/index.js',
   mode: 'development', // 默认是production 不配置会有一个警告
   devtool: 'cheap-module-eval-source-map',
+  output: { // 在开发环境，不用关心用户缓存的问题，HMR 或者 直接刷新浏览器都可以解决这个更新的问题
+    filename: '[name].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
+    chunkFilename: '[name].chunk.js',
+  },
   devServer: {
     contentBase: '../dist', // 这个服务器要启在哪一个文件夹下，因为都是打包到dist目录下，所以服务要起到dist目录下
     // open: true

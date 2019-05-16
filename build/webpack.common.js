@@ -3,12 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+  performance: false, // 打包的时候不提示警告信息
   entry: {
     main: path.resolve(__dirname, '../src/index.js')
   },
   output: {
-    filename: '[name].js', // 不写这个，打包默认生成的文件叫entry入口中配置的key的名字, 如果是多个文件打包，这里这么写死，就会报错，应该用占位符来写
-    chunkFilename: '[name].chunk.js',
     path: path.resolve(__dirname, '../dist')
   },
   module: { // 也就是打包模块的时候，不知道怎么办的时候，就到这里面来找了
@@ -42,6 +41,9 @@ module.exports = {
     ]
   },
   optimization: {
+    runtimeChunk: {
+      name: 'runtime'
+    },
     usedExports: true,
     splitChunks: {
       chunks: 'all', // async 做代码分割的时候只对异步代码生效 initial 只对同步代码进行分割，并且要对cacheGroups做相关的配置才可以，如果只是这里设置all也是不会对同步代码进行代码分割的 all 是对异步和同步代码都做代码分割
@@ -55,6 +57,7 @@ module.exports = {
       cacheGroups: { // 打包同步代码的时候，会走到这个配置项 如果引入了一个lodash 一个jquery，两个都符合代码分割的要求，并不是lodash直接都分割到一个js文件了，而是等所有符合要求的库，这样才能做到下面说的把所有第三方库都打包一个文件中的功能
         vendors: {
           test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
           priority: -10, // 这里就是优先级，谁大谁优先级高   就是说到底打包到哪里的问题，是打包到vendors.js还是common.js中
           // filename: 'vendors.js' // 把所有的第三方库都打包到vendors.js中 也就是打包到一个文件中
         },
