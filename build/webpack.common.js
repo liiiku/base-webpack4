@@ -1,8 +1,44 @@
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 const webpack = require('webpack');
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: 'src/index.html'
+  }),
+  new CleanWebpackPlugin({
+    root: path.resolve(__dirname, '../') // 根路径不再是当前文件坐在的目录了，而是当前文件夹向上一层的路径
+  }),
+  new webpack.ProvidePlugin({
+    $: 'jquery', // 如果一个文件中引用了$，就会在模块中自动帮忙引入jquery
+    // _: 'lodash'
+    _join: ['lodash', 'join']
+  })
+];
+
+// 通过node分析dll目录下，有多少个*.dll.js文件，有多少*.manifest.json文件，动态的往plugins中添加
+const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
+console.log(files);
+files.forEach(file => {
+  if (/.*\.dll.js/.test(file)) {
+    plugins.push(
+      new AddAssetHtmlWebpackPlugin({
+        filepath: path.resolve(__dirname, '../dll', file)
+      })
+    )
+  }
+  if (/.*\.manifest.json/.test(file)) {
+    plugins.push(
+      new webpack.DllReferencePlugin({
+        manifest: path.resolve(__dirname, '../dll', file)
+      })
+    )
+  }
+});
+
 
 module.exports = {
   performance: false, // 打包的时候不提示警告信息
@@ -86,23 +122,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html'
-    }),
-    new CleanWebpackPlugin({
-      root: path.resolve(__dirname, '../') // 根路径不再是当前文件坐在的目录了，而是当前文件夹向上一层的路径
-    }),
-    new webpack.ProvidePlugin({
-      $: 'jquery', // 如果一个文件中引用了$，就会在模块中自动帮忙引入jquery
-      // _: 'lodash'
-      _join: ['lodash', 'join']
-    }),
-    new AddAssetHtmlWebpackPlugin({
-      filepath: path.resolve(__dirname, '../dll/vendors.dll.js')
-    }),
-    new webpack.DllReferencePlugin({
-      manifest: path.resolve(__dirname, '../dll/vendors.manifest.json') // 如果能从这里面找到映射关系，就没有必要再重新打包了，直接从vendors.dll.js中拿过来用就可以了，会去怎么拿？会稻全局变量中拿
-    })
-  ]
+  plugins
 }
